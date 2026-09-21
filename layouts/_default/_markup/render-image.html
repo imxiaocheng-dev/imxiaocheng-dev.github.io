@@ -1,0 +1,72 @@
+{{- /* ========== 可修改参数区（只改这里） ========== */ -}}
+{{- $maxHeight := 400 }}                    {{/* 最大高度（第一优先级） */}}
+{{- $minWidth  := 400 }}                    {{/* 小图最小宽度 */}}
+{{- $maxWidth  := 800 }}                    {{/* 最大宽度 */}}
+{{- $resizeOpt := "1200x q90 Lanczos" }}    {{/* Hugo构建压缩：宽1200px 质量90% */}}
+{{- /* ========== 参数区结束 ========== */ -}}
+
+{{- $src := .Destination | safeURL -}}
+{{- $alt := .Text -}}
+{{- $img := .Page.Resources.GetMatch $src -}}
+
+{{ if $img }}
+  {{- $processed := $img.Resize $resizeOpt -}}
+  {{- $h := $processed.Height -}}
+
+  <figure style="margin: 1rem auto; box-sizing: border-box;">
+    {{ if gt $h $maxHeight }}
+      {{- /* 大图（原图高度 > 最大高度）：高度第一优先级，不强制最小宽度 */ -}}
+      <img 
+        src="{{ $processed.RelPermalink }}" 
+        alt="{{ $alt }}"
+        style="
+          max-height: {{ $maxHeight }}px;
+          max-width: min({{ $maxWidth }}px, 100%);
+          width: auto;
+          height: auto;
+          display: block;
+          margin: 0 auto;
+        "
+      >
+    {{ else }}
+      {{- /* 小图（原图高度 ≤ 最大高度）：最小宽度优先，最大高度兜底，不变形不裁切 */ -}}
+      <div style="
+        min-width: min({{ $minWidth }}px,100%);
+        max-width: min({{ $maxWidth }}px,100%);
+        max-height: {{ $maxHeight }}px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      ">
+        <img 
+          src="{{ $processed.RelPermalink }}" 
+          alt="{{ $alt }}"
+          style="
+            max-height: 100%;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            display: block;
+          "
+        >
+      </div>
+    {{ end }}
+  </figure>
+{{ else }}
+  {{- /* 外部图片：无法读取宽高，统一按大图规则 */ -}}
+  <figure style="margin: 1rem auto; box-sizing: border-box;">
+    <img 
+      src="{{ $src }}" 
+      alt="{{ $alt }}"
+      style="
+        max-height: {{ $maxHeight }}px;
+        max-width: min({{ $maxWidth }}px,100%);
+        width: auto;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      "
+    >
+  </figure>
+{{ end }}

@@ -1,0 +1,23 @@
+{{- $lang := .Type | default "" -}}
+{{- $code := .Inner -}}
+{{- /* 去除代码末尾多余换行，避免行数统计虚高 */ -}}
+{{- $codeTrim := strings.TrimRight "\n" $code -}}
+{{- $newlineCount := strings.Count "\n" $codeTrim -}}
+{{- $lineCount := add $newlineCount 1 -}} {{/* 换行数量+1 = 真实代码行数 */}}
+{{- $threshold := 5 -}} {{/* 阈值：超过5行自动折叠，按需修改 */}}
+{{- $isFold := gt $lineCount $threshold -}}
+
+{{- /* 读取属性，支持手动强制不折叠：```python {nofold=true} */ -}}
+{{- $nofold := false -}}
+{{- if isset .Attributes "nofold" -}}
+  {{- $nofold = .Attributes.nofold -}}
+{{- end -}}
+
+{{- if and $isFold (not $nofold) -}}
+<details class="code-collapse">
+  <summary>点击展开完整代码 - {{ if $lang }}{{ $lang }}{{ else }}代码块{{ end }}（共{{ $lineCount }}行）</summary>
+  {{ highlight $code $lang .Options }}
+</details>
+{{- else -}}
+  {{ highlight $code $lang .Options }}
+{{- end -}}

@@ -1,0 +1,170 @@
+/* ========== PaperMod 完整主题变量 + 详细注释 ========== */
+/* 存放路径：assets/css/extended/custom.css */
+/* 浅色模式 :root，网站默认亮色主题 */
+:root {
+  --nav-width: min(1000px,90vw);  /* ✅导航内部（logo+菜单）最大宽度，和main-width保持一模一样 */
+  --article-width: min(1000px, 80vw);  /* 正文最大宽度：上限1400px；窗口小于1400时占92%视口宽度 */
+  --main-width: min(1000px, 80vw);     /* 列表页、首页、归档页整体容器宽度，和文章统一 */
+  --gap: 24px;
+  --theme: #f5f5f5;          /* 页面最外层背景（浏览器底色，body底层背景） */
+  --entry: #ffffff;          /* 文章卡片、首页文章列表条目、归档卡片背景 */
+  --primary: #222222;        /* 主文字颜色：页面大标题、正文主体文字 */
+  --secondary: #555555;      /* 次要文字：文章发布时间、摘要、作者、元信息 */
+  --tertiary: #888888;       /* 最弱辅助文字：页脚版权信息、提示小字、标签说明 */
+  --border: #cecece;        /* 全局边框颜色：分割线、卡片边框、表格边框 */
+  --link: #2563eb;           /* 超链接默认文字颜色 */
+  --link-hover: #1d4ed8;     /* 鼠标悬浮在链接上时的文字颜色 */
+  --code-bg: #fffefa;        /* 代码块外层背景色 */
+  --code: #111111;           /* 代码块内文字颜色 */
+  --quote: #444444;          /* Markdown引用块 > 内部文字颜色 */
+  --quote-bg: #f8f8f8;       /* Markdown引用块背景颜色 */
+  --header: #ffffff;         /* 顶部导航栏背景色 */
+  --header-text: #222222;    /* 导航栏菜单文字、logo文字颜色 */
+  --toc: #f7f7f7;            /* 文章右侧目录（TOC）容器背景 */
+  --toc-border: #e5e5e5;     /* 右侧目录边框颜色 */
+  --tag: #f0f0f0;            /* 标签胶囊的背景色 */
+  --tag-text: #333333;       /* 标签胶囊内部文字颜色 */
+  --breadcrumb: #666666;     /* 面包屑文字基础颜色 */
+}
+
+/* ========== 暗色模式 :root[data-theme="dark"] ========== */
+/* 切换暗色主题时自动生效 */
+:root[data-theme="dark"] {
+  --theme: #151515;          /* 暗色模式页面最外层背景 */
+  --entry: #33333386;          /* 暗色模式文章卡片背景 */
+  --primary: #e8e8e8;        /* 暗色模式正文、标题文字 */
+  --secondary: #aaaaaa;      /* 暗色模式次要文字（时间、摘要） */
+  --tertiary: #808080;       /* 暗色模式最弱辅助小字 */
+  --border: #333333;         /* 暗色模式分割线、卡片边框 */
+  --link: #60a5fa;           /* 暗色模式超链接默认颜色 */
+  --link-hover: #93c5fd;     /* 暗色模式链接悬浮颜色 */
+  --code-bg: #2b2b2b;        /* 暗色模式代码块背景 */
+  --code: #f0f0f0;           /* 暗色模式代码文字 */
+  --quote: #cccccc;          /* 暗色模式引用块文字 */
+  --quote-bg: #282828;       /* 暗色模式引用块背景 */
+  --header: #1b1b1b;         /* 暗色模式导航栏背景 */
+  --header-text: #eeeeee;    /* 暗色模式导航栏文字 */
+  --toc: #242424;            /* 暗色模式右侧目录背景 */
+  --toc-border: #383838;     /* 暗色模式右侧目录边框 */
+  --tag: #333333;            /* 暗色模式标签胶囊背景 */
+  --tag-text: #dddddd;       /* 暗色模式标签胶囊文字 */
+  --breadcrumb: #bbbbbb;     /* 暗色模式面包屑文字 */
+}
+
+/* ========== 分页组件（首页查看更多、上下页分页） ========== */
+/* 首页查看更多按钮：pagination 下的 next 链接 */
+.pagination .next {
+    background: var(--entry);    /* 背景，和文章卡片一致 */
+    color: var(--primary);       /* 文字主色 */
+    border: 1px solid var(--border); /* 边框 */
+    border-radius: 999px;        /* 胶囊圆角 */
+}
+.pagination .next:hover {
+    background: var(--tag);      /* hover背景，标签背景变量 */
+    border-color: var(--secondary); /* hover边框颜色 */
+}
+
+/* ========== 分页组件（上一页 / 下一页 / 首页查看更多） ========== */
+/* 匹配 pagination 容器内所有a标签：.prev（上一页）、.next（查看更多/下一页） */
+.pagination a {
+    background: var(--entry);    /* 背景，和文章卡片保持一致 */
+    color: var(--primary);       /* 文字主色 */
+    border: 1px solid var(--border); /* 边框，全局边框变量 */
+    border-radius: 999px;        /* 胶囊圆角 */
+}
+.pagination a:hover {
+    background: var(--tag);      /* hover背景，复用标签背景变量 */
+    border-color: var(--secondary); /* hover边框颜色 */
+}
+
+/* ========== 附加独立样式（不属于主题变量，直接覆盖元素） ========== */
+/* 面包屑链接样式 */
+.breadcrumbs a {
+  color: var(--breadcrumb); /* 读取上面定义的面包屑颜色变量 */
+  text-decoration: none;     /* 可选：取消下划线 */
+}
+.breadcrumbs a:hover {
+  color: var(--link-hover);
+}
+
+/* Markdown 表格样式 */
+table {
+  border-color: var(--border);
+}
+tr:nth-child(even) {
+  background: rgba(253, 136, 4, 0.1); /* 偶数行淡底色，方便阅读 */
+}
+
+
+/* 文章卡片（你这段已经生效，保留，只补宽度继承） */
+.post-entry {
+  width:100% !important;
+  margin:0 auto 1rem !important;
+  box-sizing: border-box !important;
+  padding:1.2rem !important;
+  max-height: 180px;
+  height: auto;
+  overflow: hidden;
+}
+
+/* 摘要（这段已经生效，原样保留不用改） */
+.post-entry .entry-content p {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 所有社交图标基础过渡 */
+.social-icons svg {
+  transition: transform 0.18s ease, color 0.18s ease;
+}
+
+/* hover 放大 */
+.social-icons a:hover svg {
+  transform: scale(1.15);
+}
+
+/* Github 单独变色 */
+.social-icons a[href*="github.com"]:hover svg {
+  color: #58a6ff;
+}
+
+/* B站单独变色（可选，不要可以删掉这块） */
+.social-icons a[href*="bilibili.com"]:hover svg {
+  color: #fb7299;
+}
+
+/* 微信单独变色（可选，不要可以删掉这块） */
+.social-icons a[href*="/wechat"]:hover svg {
+  color: #7bb340;
+}
+
+/* 自动折叠代码块，保留原生 ::marker 三角箭头 */
+.post-content details.code-collapse {
+    margin: 1rem 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.post-content details.code-collapse summary {
+    padding: 0.6rem 1rem;
+    background: var(--entry);
+    cursor: pointer;
+    user-select: none;
+    /* 删掉 display:flex; align-items:center; 这两行！！ */
+    line-height: 1.5;
+}
+
+/* 保留原生 ::marker，只微调箭头大小颜色 */
+.post-content details.code-collapse summary::marker {
+    color: var(--primary);
+    font-size: 1em;
+}
+
+.post-content details.code-collapse pre {
+    margin: 0;
+    border-radius: 0;
+    border-top: 1px solid var(--border);
+}

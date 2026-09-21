@@ -1,0 +1,97 @@
+baseURL: 'https://example.org/'
+hasCJKLanguage : true
+defaultContentLanguage: zh
+locale: zh-cn
+title: '张小橙的站'
+theme:
+  - PaperMod
+  # - hugo-shortcode-gallery
+
+pagination:
+  pagerSize: 3
+paginatePath: page
+
+menus:
+  main:
+  - name: 主页
+    pageRef: /
+    weight: 10
+  - name: 文章
+    pageRef: /posts
+    weight: 20
+  - name: 搜索
+    pageRef: /search
+    weight: 30
+  - name: 时间轴
+    pageRef: /archives
+    weight: 40
+  - name: 关于
+    pageRef: /about
+    weight: 50
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # necessary for search
+
+params:
+  # 主题亮暗相关设置
+  # defaultTheme: 'light'
+  defaultTheme: 'dark'
+  enableLightbox: true
+  # defaultTheme: 'auto'
+  disableThemeToggle: false
+  ShowBreadCrumbs: true
+  ShowPostNavLinks: true
+  ShowCodeCopyButtons: true
+  #ShowShareButtons: true
+  #ShowReadingTime: true
+  ShowWordCount: true
+  ShowToc: true
+
+  profileMode:
+    enabled: false
+    title: "我是张小橙" # optional default will be site title
+    subtitle: "保持热爱 无畏无知"
+    imageUrl: "/logo.png" # 图片放在static文件夹下，路径写 /logo.png，多了一个多余的>我帮你删掉
+    imageTitle: "<title of image as alt>" # optional
+    imageWidth: 120 # custom size
+    imageHeight: 120 # custom size
+    # buttons:
+    #   - name: Archive
+    #     url: "https://github.com/"
+    #   - name: Github
+    #     url: "https://github.com/"
+
+  homeInfoParams:
+    Title: "我是张小橙"
+    imageUrl: "/logo.jpg"
+    Content: 保持热爱 无畏无知
+
+  socialIcons: # optional
+    - name: bilibili
+      url: "https://space.bilibili.com/97299494"
+      title: "B站传送门"
+    - name: github
+      url: "https://github.com/imxiaocheng-dev"
+      title: "Github传送门"
+    - name: wechat
+      url: "/wechat"
+      title: "微信传送门"
+
+
+markup:
+  highlight:
+    codeFences: true       # 启用```代码块（默认开启）
+    style: monokai         # 配色，暗色推荐 monokai / nord；浅色用 github
+    lineNos: true         # 是否显示行号 true打开 false关闭
+    lineNumbersInTable: true # 关键！开启table布局，行号独立单元格
+    noClasses: false
+  goldmark:
+    renderer:
+      unsafe: true
+
+cover:
+  hiddenInList: false # 在文章列表和首页显示封面
+  hiddenInSingle: true # 在单页隐藏封面

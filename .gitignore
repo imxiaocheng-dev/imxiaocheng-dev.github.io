@@ -1,0 +1,37 @@
+# Hugo 构建产物与缓存
+public/
+resources/
+.hugo_build.lock
+
+# Hugo 本地开发临时文件
+*.log
+*.tmp
+*.temp
+
+# 本地二进制程序
+hugo.exe
+hugo
+hugo.*.exe
+
+# 主题子模块相关（如果后续不用子模块可以保留）
+# /themes/*
+# !/themes/PaperMod
+
+# 编辑器缓存
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# 备份文件
+*.bak
+*.backup
+
+# 本地测试素材、草稿大图（如果你在static下放临时图片，可选）
+# static/**/*.psd
+# static/**/*.xcf
+# static/**/*.zip
+# static/**/*.mp4

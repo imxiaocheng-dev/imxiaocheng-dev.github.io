@@ -1,0 +1,16 @@
+{{- if (.Param "ShowBreadCrumbs") -}}
+<div class="breadcrumbs">
+{{- $ancestors := .Ancestors.Reverse -}}
+{{- $total := len $ancestors -}}
+{{- range $idx, $page := $ancestors }}
+<a href="{{ $page.RelPermalink }}">
+{{ if $page.IsHome }}
+{{ i18n "home" }}
+{{ else }}
+{{ i18n $page.Section | default $page.Title }}
+{{ end }}
+</a>
+{{ if lt $idx (sub $total 1) }}&nbsp;»&nbsp;{{ end }}
+{{- end -}}
+</div>
+{{- end }}

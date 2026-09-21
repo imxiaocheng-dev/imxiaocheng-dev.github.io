@@ -1,0 +1,11 @@
+baseURL = 'https://example.org/'
+locale = 'zh-cn'
+title = 'My New Blog'
+theme = 'PaperMod'
+
+[params]
+    #主题亮暗相关设置
+    #defaultTheme= 'light'
+    defaultTheme= 'dark'
+    #defaultTheme= 'auto'
+    disableThemeToggle= false
