@@ -12,5 +12,6 @@
 </a>
 {{ if lt $idx (sub $total 1) }}&nbsp;»&nbsp;{{ end }}
 {{- end -}}
+{{- if not .IsHome }}&nbsp;»&nbsp;<span aria-current="page">{{ .Title }}</span>{{- end }}
 </div>
 {{- end }}

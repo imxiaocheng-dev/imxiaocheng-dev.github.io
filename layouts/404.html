@@ -1,0 +1,16 @@
+{{- define "main" }}
+<article class="post-single">
+  <header class="post-header">
+    <h1 class="post-title">404 · 页面走丢了</h1>
+  </header>
+  <div class="post-content">
+    <p>你要找的页面不存在——可能是链接输错了、文章改了名，或者它还没被写出来。</p>
+    <p>可以试试：</p>
+    <ul>
+      <li><a href="{{ "" | relURL }}">回首页</a></li>
+      <li><a href="{{ "posts/" | relURL }}">看全部文章</a></li>
+      <li><a href="{{ "search/" | relURL }}">站内搜索</a></li>
+    </ul>
+  </div>
+</article>
+{{- end }}

@@ -1,15 +1,16 @@
-baseURL: 'https://example.org/'
-hasCJKLanguage : true
+baseURL: 'https://imxiaocheng-dev.github.io/'  # CI 会用 pages 的真实地址覆盖，这里写正式域名，本地构建也不会再泄漏 example.org
+hasCJKLanguage: true
 defaultContentLanguage: zh
 locale: zh-cn
 title: '张小橙的站'
+enableRobotsTXT: true
+
 theme:
   - PaperMod
-  # - hugo-shortcode-gallery
 
 pagination:
   pagerSize: 3
-paginatePath: page
+  path: page
 
 menus:
   main:
@@ -33,43 +34,52 @@ outputs:
   home:
     - HTML
     - RSS
-    - JSON # necessary for search
+    - JSON # 站内搜索需要
+  # 分区/标签页也输出 RSS：否则 RSS 中指到 /tags/xxx/index.xml 的链接 404
+  section:
+    - HTML
+    - RSS
+  taxonomy:
+    - HTML
+    - RSS
+  term:
+    - HTML
+    - RSS
 
 params:
+  env: production
+  # 站点级 SEO 兜底（首页 description / author / keywords，之前是空的）
+  description: '张小橙的个人博客：嵌入式硬件、DIY 电子制作、Python 与生活随笔。'
+  author: 张小橙
+  keywords: [张小橙, 嵌入式, 硬件, DIY, Hugo, 博客]
   # 主题亮暗相关设置
-  # defaultTheme: 'light'
   defaultTheme: 'dark'
-  enableLightbox: true
-  # defaultTheme: 'auto'
   disableThemeToggle: false
   ShowBreadCrumbs: true
   ShowPostNavLinks: true
   ShowCodeCopyButtons: true
-  #ShowShareButtons: true
-  #ShowReadingTime: true
   ShowWordCount: true
   ShowToc: true
+  # 首页只列 posts 分区（之前没配，靠 Hugo 隐式推断）
+  mainSections: [posts]
+
+  assets:
+    theme_color: '#151515'
 
   profileMode:
     enabled: false
-    title: "我是张小橙" # optional default will be site title
+    title: "我是张小橙"
     subtitle: "保持热爱 无畏无知"
-    imageUrl: "/logo.png" # 图片放在static文件夹下，路径写 /logo.png，多了一个多余的>我帮你删掉
-    imageTitle: "<title of image as alt>" # optional
-    imageWidth: 120 # custom size
-    imageHeight: 120 # custom size
-    # buttons:
-    #   - name: Archive
-    #     url: "https://github.com/"
-    #   - name: Github
-    #     url: "https://github.com/"
+    imageUrl: "/logo.jpg"
+    imageWidth: 120
+    imageHeight: 120
 
   homeInfoParams:
     Title: "我是张小橙"
     imageUrl: "/logo.jpg"
     Content: 保持热爱 无畏无知
 
-  socialIcons: # optional
+  socialIcons:
     - name: bilibili
       url: "https://space.bilibili.com/97299494"
       title: "B站传送门"
@@ -77,21 +87,19 @@ params:
       url: "https://github.com/imxiaocheng-dev"
       title: "Github传送门"
     - name: wechat
-      url: "/wechat"
+      url: "https://imxiaocheng-dev.github.io/wechat"
       title: "微信传送门"
-
 
 markup:
   highlight:
-    codeFences: true       # 启用```代码块（默认开启）
-    style: monokai         # 配色，暗色推荐 monokai / nord；浅色用 github
-    lineNos: true         # 是否显示行号 true打开 false关闭
-    lineNumbersInTable: true # 关键！开启table布局，行号独立单元格
+    codeFences: true
+    style: monokai
+    lineNos: true
+    lineNumbersInTable: true
     noClasses: false
   goldmark:
     renderer:
       unsafe: true
-
-cover:
-  hiddenInList: false # 在文章列表和首页显示封面
-  hiddenInSingle: true # 在单页隐藏封面
+    parser:
+      # 独立图片不再被包进 <p>，配合 render-image 输出的 <figure> 消除非法嵌套
+      wrapStandAloneImageWithinParagraph: false

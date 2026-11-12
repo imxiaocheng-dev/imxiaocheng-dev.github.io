@@ -1,0 +1,207 @@
+/* ==========================================================================
+   动效层（motion.css）
+   原则：只动 transform / opacity，不改配色/字体/布局；全部尊重 prefers-reduced-motion。
+   顺序：页面转场 → 首屏入场 → 滚动渐显 → 卡片交互 → 图标/按钮 → 进度条 → 折叠面板
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. 同源跨页转场（View Transitions，纯 CSS；不支持的浏览器自动忽略）
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+    @view-transition {
+        navigation: auto;
+    }
+
+    ::view-transition-old(root) {
+        animation: vt-fade-out 0.18s ease-in both;
+    }
+
+    ::view-transition-new(root) {
+        animation: vt-fade-in 0.24s ease-out both;
+    }
+}
+
+@keyframes vt-fade-out {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes vt-fade-in {
+    from {
+        opacity: 0;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   2. 首屏入场：头像 → 标题 → 副标题 → 图标 → 卡片，错峰上浮
+   （由 motion.js 打 .motion-intro 并设置 --stagger 延迟）
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+    .motion-intro {
+        animation: intro-rise 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+        animation-delay: var(--stagger, 0ms);
+        will-change: transform, opacity;
+    }
+}
+
+@keyframes intro-rise {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   3. 滚动渐显：正文标题 / 图片 / 引用 / 表格进入视口时淡入上移
+   -------------------------------------------------------------------------- */
+.reveal {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.reveal.in-view {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   4. 文章卡片：悬浮上浮 + 封面轻微放大 + 标题下划线“画出来”
+   -------------------------------------------------------------------------- */
+.post-entry {
+    transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+        box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.post-entry:hover {
+    transform: translateY(-2px);
+}
+
+.post-entry .entry-cover {
+    overflow: hidden;
+}
+
+.post-entry .entry-cover img {
+    transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+    transform-origin: center;
+}
+
+.post-entry:hover .entry-cover img {
+    transform: scale(1.03);
+}
+
+/* 首页“查看更多”箭头在 hover 时前移 */
+#home-info + * .more-link svg,
+a.more-link svg {
+    transition: transform 0.25s ease;
+}
+
+a.more-link:hover svg {
+    transform: translateX(3px);
+}
+
+/* --------------------------------------------------------------------------
+   5. 社交图标 / 主题按钮 / 复制按钮
+   -------------------------------------------------------------------------- */
+.social-icons a {
+    transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1), color 0.28s ease;
+}
+
+.social-icons a:hover {
+    transform: translateY(-2px);
+}
+
+.theme-toggle {
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+    transform: rotate(8deg) scale(1.04);
+}
+
+.theme-toggle:active,
+.copy-code:active,
+.top-link:active {
+    transform: scale(0.92);
+}
+
+.copy-code {
+    transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+/* 返回顶部按钮淡入上移（主题用 .hidden 控制显隐） */
+.top-link {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.top-link.hidden {
+    opacity: 0;
+    transform: translateY(6px);
+}
+
+/* --------------------------------------------------------------------------
+   6. 阅读进度条（motion.js 注入 #reading-progress）
+   -------------------------------------------------------------------------- */
+#reading-progress {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    background: linear-gradient(90deg, #fd8804, #ffb45c);
+    z-index: 60;
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   7. 折叠面板（目录 / 代码块）：展开高度平滑过渡由 motion.js 驱动
+   -------------------------------------------------------------------------- */
+details > summary {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+details > summary:hover {
+    color: var(--primary);
+}
+
+details[open] > summary .title::after {
+    content: "";
+}
+
+/* 目录展开时的小箭头旋转 */
+details.toc > summary span.title {
+    display: inline-block;
+    transition: transform 0.25s ease;
+}
+
+details.toc[open] > summary span.title {
+    transform: translateX(2px);
+}
+
+/* --------------------------------------------------------------------------
+   8. 键盘焦点：清晰但不喧宾夺主
+   -------------------------------------------------------------------------- */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--link-color, #7cb3f0);
+    outline-offset: 3px;
+    border-radius: 2px;
+}

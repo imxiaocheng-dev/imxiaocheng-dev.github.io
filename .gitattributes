@@ -1,0 +1,12 @@
+# 统一换行符，避免 Windows 本地构建与 CI 构建产物字节不一致
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.woff2 binary
+*.ttf binary
+*.mp4 binary

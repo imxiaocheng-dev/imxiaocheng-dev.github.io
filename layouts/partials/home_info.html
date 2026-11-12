@@ -2,26 +2,29 @@
 <article class="first-entry home-info">
     <div class="home-info-container home-info-main-container">
         <div class="home-info-content-wrapper">
-            {{- with site.Params.homeInfoParams }}
             <div class="home-info-avatar home-info-avatar-container">
                 {{- if .ImageUrl -}}
                 {{- $imgSrc := .ImageUrl | absURL }}
-                {{- $img := resources.Get .ImageUrl }}
-                {{- if $img }}
-                {{- $size := printf "%dx%d" (.ImageWidth | default 100) (.ImageHeight | default 100) }}
-                {{- $img = $img.Resize $size }}
-                {{- $imgSrc = $img.Permalink }}
+                {{- $srcset := "" }}
+                {{- $w := .ImageWidth | default 100 }}
+                {{- $h := .ImageHeight | default 100 }}
+                {{- $path := strings.TrimPrefix "/" .ImageUrl }}
+                {{- with resources.Get $path }}
+                    {{- $small := .Resize (printf "%dx%d webp q85" $w $h) }}
+                    {{- $large := .Resize (printf "%dx%d webp q85" (mul $w 2) (mul $h 2)) }}
+                    {{- $imgSrc = $small.RelPermalink }}
+                    {{- $srcset = printf "%s 1x, %s 2x" $small.RelPermalink $large.RelPermalink }}
                 {{- end }}
-                <img id="home-info-avatar" 
-                     draggable="false" 
-                     src="{{ $imgSrc }}" 
-                     alt="{{ .Title | default "profile image" }}" 
-                     height="{{ .ImageHeight | default 100 }}" 
-                     width="{{ .ImageWidth | default 100 }}" 
+                <img id="home-info-avatar"
+                     draggable="false"
+                     src="{{ $imgSrc }}"
+                     {{ if $srcset }}srcset="{{ $srcset }}" sizes="{{ $w }}px"{{ end }}
+                     alt="{{ .Title | default site.Title }}"
+                     height="{{ $h }}"
+                     width="{{ $w }}"
                      class="home-info-avatar-img" />
                 {{- end }}
             </div>
-            {{- end }}
             <div class="entry-main home-info-text-content">
                 <header class="entry-header">
                     <h1>{{ .Title | markdownify }}</h1>
